@@ -14,8 +14,4 @@
       <ProjectReference Include="..\BotServices.Services\BotServices.Services.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Slash\" />
-    </ItemGroup>
-
 </Project>

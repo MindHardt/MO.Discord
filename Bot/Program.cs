@@ -1,5 +1,6 @@
 ﻿using BotServices.MoBot;
 using BotServices.Services.Core;
+using BotServices.Services.Implementations;
 using Data;
 using Data.Repositories;
 using Disqord;
@@ -26,6 +27,7 @@ IHost host = Host.CreateDefaultBuilder()
                             throw new InvalidOperationException("ConnectionString not found")));
         services.AddEntityFrameworkCoreRepositories<ApplicationContext>();
         services.AddBotServices();
+        services.AddMemoryCache();
     })
     .ConfigureDiscordBot<MoBot>((ctx, bot) =>
     {

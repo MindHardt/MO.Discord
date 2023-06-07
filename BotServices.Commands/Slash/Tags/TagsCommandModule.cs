@@ -53,7 +53,7 @@ public partial class TagsCommandModule : DiscordApplicationGuildModuleBase
         [Name("content"), Description("Текст будущего тега"), Maximum(Constants.MaxContentLength)]
         string text)
     {
-        if (_tagService.GetTagNameRegex().IsMatch(name) is false)
+        if (_tagService.GetTagNameRegex().IsMatch($"${name}") is false)
             return Results.Failure("Это имя недопустимо для тега.");
         
         Snowflake ownerId = Context.AuthorId;

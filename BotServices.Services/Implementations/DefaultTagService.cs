@@ -3,6 +3,8 @@ using BotServices.Entities.Tags;
 using BotServices.Services.Core;
 using Data.Repositories.Core;
 using Disqord;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace BotServices.Services.Implementations;
 
@@ -11,10 +13,17 @@ public partial class DefaultTagService : ITagService
     private const int MaxTagCount = Discord.Limits.Message.MaxEmbedAmount;
     private const int MaxTagNamesCount = Discord.Limits.ApplicationCommand.Option.MaxChoiceAmount;
     private readonly ITagRepository _repo;
+    private readonly IMemoryCache _cache;
+    private readonly ILogger<DefaultTagService> _logger;
 
-    public DefaultTagService(ITagRepository repo)
+    public DefaultTagService(
+        ITagRepository repo,
+        IMemoryCache cache, 
+        ILogger<DefaultTagService> logger)
     {
         _repo = repo;
+        _cache = cache;
+        _logger = logger;
     }
 
     public TagMessage CreateTagMessage(string name, string text, Snowflake ownerId, Snowflake? guildId) => new()
@@ -27,8 +36,7 @@ public partial class DefaultTagService : ITagService
 
     public TagAlias CreateTagAlias(TagMessage original, string newName, Snowflake ownerId, Snowflake? guildId) => new()
     {
-        ReferencedTag = original as TagMessage ?? 
-                        throw new InvalidCastException($"Aliases can only be added to '{nameof(TagMessage)}'"),
+        ReferencedTag = original,
         ReferencedTagId = original.Id,
         Name = newName,
         OwnerId = ownerId,
@@ -55,7 +63,19 @@ public partial class DefaultTagService : ITagService
 
     public async Task<Tag?> GetTagAsync(string name, Snowflake? guildId)
     {
-        var tag = await _repo.GetTagAsync(name);
+        var cacheName = GetCacheName(name);
+        if (_cache.TryGetValue(cacheName, out Tag? tag))
+        {
+            _logger.LogInformation("Retrieved tag {Name} from cache", 
+                name);
+            return tag;
+        }
+        
+        tag = await _repo.GetTagAsync(name);
+        _cache.Set(cacheName, tag);
+        
+        _logger.LogInformation("Cached tag {TagName}", 
+            name);
 
         if (tag?.IsPublic is false && tag.GuildId != guildId)
             return null;
@@ -68,7 +88,7 @@ public partial class DefaultTagService : ITagService
         return _repo.GetTagNames(MaxTagNamesCount, guildId, prompt);
     }
 
-    [GeneratedRegex(@"\$(?<NAME>[\w\d]+)")]
+    [GeneratedRegex(@"\$(?<NAME>[\d\p{L}]+)")]
     public partial Regex GetTagNameRegex();
 
     public TMessage CreateMessage<TMessage>(Tag tag) where TMessage : LocalMessageBase, new()
@@ -83,4 +103,6 @@ public partial class DefaultTagService : ITagService
 
     private static string GetPublicMark(Tag tag) => tag.IsPublic ? "🔓" : "🔒";
     private static string GetTypeMark(Tag tag) => tag is TagMessage ? "✉️" : "🔗";
+
+    private static string GetCacheName(string tagName) => $"TAG_{tagName.ToUpperInvariant()}";
 }

@@ -25,6 +25,7 @@ public partial class TagsCommandModule
 
 
         [SlashCommand("create")]
+        [Description("Создает синоним для тега, т.е. новое название по которому к нему можно обращаться")]
         public async ValueTask<IResult> Create(
             [Name("original"), Description("Название исходного тега")]
             string originalName,

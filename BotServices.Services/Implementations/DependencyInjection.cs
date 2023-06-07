@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BotServices.Services.Core;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace BotServices.Services.Core;
+namespace BotServices.Services.Implementations;
 
 public static class DependencyInjection
 {
