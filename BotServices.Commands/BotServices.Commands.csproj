@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BotServices.Factories\BotServices.Factories.csproj" />
       <ProjectReference Include="..\BotServices.Services\BotServices.Services.csproj" />
     </ItemGroup>
 

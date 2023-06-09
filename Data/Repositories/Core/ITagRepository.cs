@@ -37,6 +37,14 @@ public interface ITagRepository
     /// <param name="maxCount"></param>
     /// <param name="guildId"></param>
     /// <param name="prompt"></param>
+    /// <param name="editableBy"></param>
     /// <returns></returns>
-    public Task<IReadOnlyCollection<string>> GetTagNames(int maxCount, Snowflake? guildId, string prompt);
+    public Task<IReadOnlyCollection<string>> GetTagNamesAsync(int maxCount, Snowflake? guildId, string prompt, Snowflake? editableBy);
+    
+    /// <summary>
+    /// Deletes the tag with specified name.
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    public Task DeleteTagAsync(Tag tag);
 }

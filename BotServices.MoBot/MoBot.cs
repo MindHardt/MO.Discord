@@ -1,4 +1,4 @@
-﻿using BotServices.Commands.Slash.Tags;
+﻿using BotServices.Commands.Tags.Slash;
 using Disqord;
 using Disqord.Bot;
 using Disqord.Bot.Commands.Application;

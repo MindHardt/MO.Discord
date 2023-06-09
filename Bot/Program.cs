@@ -1,5 +1,5 @@
-﻿using BotServices.MoBot;
-using BotServices.Services.Core;
+﻿using BotServices.Factories.Core;
+using BotServices.MoBot;
 using BotServices.Services.Implementations;
 using Data;
 using Data.Repositories;
@@ -26,7 +26,10 @@ IHost host = Host.CreateDefaultBuilder()
             dbCtx.UseNpgsql(ctx.Configuration.GetConnectionString("DefaultConnection") ??
                             throw new InvalidOperationException("ConnectionString not found")));
         services.AddEntityFrameworkCoreRepositories<ApplicationContext>();
+        
         services.AddBotServices();
+        services.AddBotFactories();
+        
         services.AddMemoryCache();
     })
     .ConfigureDiscordBot<MoBot>((ctx, bot) =>

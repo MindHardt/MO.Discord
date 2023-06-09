@@ -32,9 +32,8 @@ public class DefaultGuildDataService : IGuildDataService
                 guildId.RawValue, data);
             return data;
         }
-
-        _logger.LogInformation("Fetched guild data with id {Id} and value {Value}", 
-            guildId.RawValue, data);
+        _logger.LogInformation("Guild data with id {Id} not found in cache", 
+            guildId.RawValue);
         
         data = await _repository.GetGuildDataAsync(guildId);
         _cache.Set(cacheName, data);

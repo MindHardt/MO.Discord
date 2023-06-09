@@ -1,31 +1,10 @@
-﻿using System.Text.RegularExpressions;
-using BotServices.Entities.Tags;
+﻿using BotServices.Entities.Tags;
 using Disqord;
 
 namespace BotServices.Services.Core;
 
 public interface ITagService : IBotService
 {
-    /// <summary>
-    /// Creates a <see cref="TagMessage"/> with specified parameters and abstracts it to <see cref="Tag"/>. 
-    /// </summary>
-    /// <param name="name">The name of a new <see cref="Tag"/>.</param>
-    /// <param name="text">The content of a new <see cref="Tag"/>.</param>
-    /// <param name="ownerId">The owner of a new <see cref="Tag"/>.</param>
-    /// <param name="guildId">The guild id of a new <see cref="Tag"/>.</param>
-    /// <returns></returns>
-    public TagMessage CreateTagMessage(string name, string text, Snowflake ownerId, Snowflake? guildId);
-
-    /// <summary>
-    /// Creates a new tag alias that refers to <paramref name="original"/>.
-    /// </summary>
-    /// <param name="original"></param>
-    /// <param name="newName"></param>
-    /// <param name="ownerId"></param>
-    /// <param name="guildId"></param>
-    /// <returns></returns>
-    public TagAlias CreateTagAlias(TagMessage original, string newName, Snowflake ownerId, Snowflake? guildId);
-
     /// <summary>
     /// Saves <paramref name="tag"/> to the storage.
     /// </summary>
@@ -53,22 +32,36 @@ public interface ITagService : IBotService
     /// <param name="guildId"></param>
     /// <returns></returns>
     public Task<Tag?> GetTagAsync(string name, Snowflake? guildId);
-    
+
     /// <summary>
     /// Gets tag names that are visible in guild with <paramref name="guildId"/>
     /// and match the <paramref name="prompt"/>.
     /// </summary>
     /// <param name="guildId"></param>
     /// <param name="prompt"></param>
+    /// <param name="editableBy">If specified, results will be filtered to tags editable by this user.</param>
     /// <returns></returns>
-    public Task<IReadOnlyCollection<string>> GetTagNames(Snowflake? guildId, string prompt);
+    public Task<IReadOnlyCollection<string>> GetTagNames(Snowflake? guildId, string prompt, Snowflake? editableBy = null);
 
     /// <summary>
-    /// Gets the regex that is used to validate tag names.
-    /// This regex must have a group named "NAME" containing tag name.
+    /// Deletes tag specified by <paramref name="name"/>.
     /// </summary>
+    /// <param name="name"></param>
+    /// <param name="authorId"></param>
     /// <returns></returns>
-    public Regex GetTagNameRegex();
+    public Task DeleteTagAsync(string name, Snowflake authorId);
+
+    /// <summary>
+    /// Attempts to find tag name in <paramref name="input"/>
+    /// </summary>
+    /// <returns>the found <see cref="Tag"/> name or <see langword="null"/> if none is found.</returns>
+    public string? FindTagName(string input);
+    
+    /// <summary>
+    /// Checks whether <see cref="name"/> is valid.
+    /// </summary>
+    /// <returns><see langword="true"/> if tag name is valid, otherwise <see langword="false"/>.</returns>
+    public bool CheckTagName(string name);
     
     /// <summary>
     /// Converts <paramref name="tag"/>s content into <typeparamref name="TMessage"/>.
@@ -78,7 +71,6 @@ public interface ITagService : IBotService
     public TMessage CreateMessage<TMessage>(Tag tag)
         where TMessage : LocalMessageBase, new();
     
-        
     /// <summary>
     /// Formats <paramref name="tag"/> in a readable form for display.
     /// </summary>

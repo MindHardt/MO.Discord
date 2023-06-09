@@ -24,10 +24,9 @@ public class InlineTagNamesService : DiscordBotService
             if (guildData?.InlineTagsEnabled is not true) return;
         }
         
-        var match = tagService.GetTagNameRegex().Match(e.Message.Content);
-        if (match.Success is false) return;
-
-        var tagName = match.Groups["NAME"].Value;
+        var tagName = tagService.FindTagName(e.Message.Content);
+        if (tagName is null) return;
+        
         Logger.LogInformation("Captured inline tag {Name}", tagName);
         Tag? tag = await tagService.GetTagAsync(tagName, e.GuildId);
 
@@ -39,7 +38,8 @@ public class InlineTagNamesService : DiscordBotService
         }
 
         var message = tagService.CreateMessage<LocalMessage>(tag)
-            .WithReply(e.MessageId);
+            .WithReply(e.MessageId)
+            .WithAllowedMentions(LocalAllowedMentions.None);
         await Bot.SendMessageAsync(e.ChannelId, message);
         Logger.LogInformation("Sent inline tag {Name}", tagName);
     }

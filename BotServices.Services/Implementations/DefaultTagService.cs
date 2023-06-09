@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using BotServices.Entities.Tags;
 using BotServices.Services.Core;
 using Data.Repositories.Core;
@@ -26,25 +27,11 @@ public partial class DefaultTagService : ITagService
         _logger = logger;
     }
 
-    public TagMessage CreateTagMessage(string name, string text, Snowflake ownerId, Snowflake? guildId) => new()
-    {
-        Name = name,
-        Text = text,
-        OwnerId = ownerId,
-        GuildId = guildId
-    };
-
-    public TagAlias CreateTagAlias(TagMessage original, string newName, Snowflake ownerId, Snowflake? guildId) => new()
-    {
-        ReferencedTag = original,
-        ReferencedTagId = original.Id,
-        Name = newName,
-        OwnerId = ownerId,
-        GuildId = guildId
-    };
-
     public async Task SaveTagAsync(Tag tag, Snowflake authorId, bool authorAdmin)
     {
+        if (CheckTagName(tag.Name) is false)
+            throw new InvalidOperationException("Это имя недопустимо для тега.");
+        
         if (tag.Id != default && authorAdmin is false)
         {
             Tag? dbTag = await _repo.GetTagAsync(tag.Name);
@@ -83,13 +70,33 @@ public partial class DefaultTagService : ITagService
         return tag;
     }
 
-    public Task<IReadOnlyCollection<string>> GetTagNames(Snowflake? guildId, string prompt)
+    public Task<IReadOnlyCollection<string>> GetTagNames(Snowflake? guildId, string prompt, Snowflake? editableBy = null)
     {
-        return _repo.GetTagNames(MaxTagNamesCount, guildId, prompt);
+        return _repo.GetTagNamesAsync(MaxTagNamesCount, guildId, prompt, editableBy);
     }
 
-    [GeneratedRegex(@"\$(?<NAME>[\d\p{L}]+)")]
-    public partial Regex GetTagNameRegex();
+    public async Task DeleteTagAsync(string name, Snowflake authorId)
+    {
+        var dbTag = await _repo.GetTagAsync(name);
+        if (dbTag is null)
+            throw new InvalidOperationException("Тег `{name}` не найден");
+        if (dbTag.OwnerId != authorId)
+            throw new InvalidOperationException("У вас нет права удалять этот тег");
+
+        await _repo.DeleteTagAsync(dbTag);
+        _cache.Remove(GetCacheName(dbTag.Name));
+    }
+
+    public string? FindTagName(string input)
+    {
+        Match match = TagSearchRegex().Match(input);
+        return match.Success ? match.Groups["NAME"].Value : null;
+    }
+
+    public bool CheckTagName(string name)
+    {
+        return TagNameRegex().IsMatch(name);
+    }
 
     public TMessage CreateMessage<TMessage>(Tag tag) where TMessage : LocalMessageBase, new()
     {
@@ -98,11 +105,20 @@ public partial class DefaultTagService : ITagService
     
     public string CreateOverview(Tag tag)
     {
-        return $"{GetPublicMark(tag)}{GetTypeMark(tag)} | {tag.Name}";
+        return $"{(tag.IsPublic ? "🔓" : "🔒")}" +
+               $"{(tag is TagMessage ? "✉️" : "🔗")} | " +
+               $"{tag.Name}";
     }
 
-    private static string GetPublicMark(Tag tag) => tag.IsPublic ? "🔓" : "🔒";
-    private static string GetTypeMark(Tag tag) => tag is TagMessage ? "✉️" : "🔗";
-
     private static string GetCacheName(string tagName) => $"TAG_{tagName.ToUpperInvariant()}";
+    
+    [StringSyntax("Regex")]
+    private const string TagNameRegexString = @"[\d\p{L}]+";
+    [StringSyntax("Regex")]
+    private const string TagSearchRegexString = @"\$(?<NAME>[\d\p{L}]+)";
+    
+    [GeneratedRegex(TagSearchRegexString)]
+    public partial Regex TagSearchRegex();
+    [GeneratedRegex(TagNameRegexString)]
+    public partial Regex TagNameRegex();
 }

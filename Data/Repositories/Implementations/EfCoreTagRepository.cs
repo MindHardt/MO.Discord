@@ -43,15 +43,27 @@ public class EfCoreTagRepository :
             .FirstOrDefaultAsync(t => EF.Functions.ILike(t.Name, name));
     }
 
-    public async Task<IReadOnlyCollection<string>> GetTagNames(int maxCount, Snowflake? guildId, string prompt)
+    public async Task<IReadOnlyCollection<string>> GetTagNamesAsync(int maxCount, Snowflake? guildId, string prompt, Snowflake? editableBy)
     {
         var query = Set
             .Where(t => t.GuildId == null || t.GuildId == guildId)
-            .Where(t => Regex.IsMatch(t.Name, prompt))
+            .Where(t => Regex.IsMatch(t.Name, prompt));
+
+        if (editableBy.HasValue)
+        {
+            query = query.Where(t => t.OwnerId == editableBy.Value);
+        }
+
+        return await query
             .Select(t => t.Name)
             .OrderBy(_ => EF.Functions.Random())
-            .Take(maxCount);
+            .Take(maxCount)
+            .ToArrayAsync();
+    }
 
-        return await query.ToArrayAsync();
+    public async Task DeleteTagAsync(Tag tag)
+    {
+        Set.Remove(tag);
+        await CommitAsync();
     }
 }
