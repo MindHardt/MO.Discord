@@ -7,16 +7,16 @@ using Microsoft.Extensions.Logging;
 
 namespace BotServices.Services.Implementations;
 
-public class DefaultGuildDataService : IGuildDataService
+public class GuildDataService : IGuildDataService
 {
     private readonly IGuildDataRepository _repository;
     private readonly IMemoryCache _cache;
-    private readonly ILogger<DefaultGuildDataService> _logger;
+    private readonly ILogger<GuildDataService> _logger;
 
-    public DefaultGuildDataService(
+    public GuildDataService(
         IGuildDataRepository repository, 
         IMemoryCache cache, 
-        ILogger<DefaultGuildDataService> logger)
+        ILogger<GuildDataService> logger)
     {
         _repository = repository;
         _cache = cache;

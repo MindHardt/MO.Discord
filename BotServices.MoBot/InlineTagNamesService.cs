@@ -16,6 +16,7 @@ public class InlineTagNamesService : DiscordBotService
         if (e.Member?.IsBot is not false) return;
 
         var guildDataService = Client.Services.GetRequiredService<IGuildDataService>();
+        var tagNameService = Client.Services.GetRequiredService<ITagNameService>();
         var tagService = Client.Services.GetRequiredService<ITagService>();
 
         if (e.GuildId is not null)
@@ -24,7 +25,7 @@ public class InlineTagNamesService : DiscordBotService
             if (guildData?.InlineTagsEnabled is not true) return;
         }
         
-        var tagName = tagService.FindTagName(e.Message.Content);
+        var tagName = tagNameService.FindTagName(e.Message.Content);
         if (tagName is null) return;
         
         Logger.LogInformation("Captured inline tag {Name}", tagName);

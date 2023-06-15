@@ -1,7 +1,6 @@
 ﻿using BotServices.Entities.Tags;
 using BotServices.Factories.Core;
 using Disqord;
-using Disqord.Gateway;
 
 namespace BotServices.Factories.Implementations;
 

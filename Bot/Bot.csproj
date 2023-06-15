@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -6,7 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    </PropertyGroup>
+      <UserSecretsId>685a6bf8-1d6b-4894-b985-4d38fd608a70</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
       <Content Include="..\.dockerignore">
@@ -37,6 +38,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BotServices.CQRS.Dispatcher\BotServices.CQRS.Dispatcher.csproj" />
       <ProjectReference Include="..\BotServices.Factories\BotServices.Factories.csproj" />
       <ProjectReference Include="..\BotServices.MoBot\BotServices.MoBot.csproj" />
       <ProjectReference Include="..\Data\Data.csproj" />

@@ -1,4 +1,7 @@
-﻿using BotServices.Entities.Tags;
+﻿using BotServices.Autocompletes.Core.Tags;
+using BotServices.CQRS.Dispatcher.Core;
+using BotServices.CQRS.Requests.Tags;
+using BotServices.Entities.Tags;
 using BotServices.Factories.Core;
 using BotServices.Services.Core;
 using Disqord;
@@ -12,18 +15,15 @@ public partial class TagsCommandModule
     [SlashGroup("псевдоним")]
     public class TagAliasCommandModule : DiscordApplicationGuildModuleBase
     {
-        private readonly ITagService _tagService;
-        private readonly IDiscordResponseFactory _discordResponseFactory;
-        private readonly ITagFactory _tagFactory;
+        private readonly IDiscordCommandDispatcher _discordCommandDispatcher;
+        private readonly ITagViewAutocompleteProvider _autocompleteProvider;
 
         public TagAliasCommandModule(
-            ITagService tagService, 
-            IDiscordResponseFactory discordResponseFactory, 
-            ITagFactory tagFactory)
+            IDiscordCommandDispatcher discordCommandDispatcher, 
+            ITagViewAutocompleteProvider autocompleteProvider)
         {
-            _tagService = tagService;
-            _discordResponseFactory = discordResponseFactory;
-            _tagFactory = tagFactory;
+            _discordCommandDispatcher = discordCommandDispatcher;
+            _autocompleteProvider = autocompleteProvider;
         }
 
 
@@ -34,31 +34,16 @@ public partial class TagsCommandModule
             string originalName,
             [Name("псевдоним"), Description("Новое название тега")]
             string newName)
-        {
-            if (_tagService.CheckTagName(newName) is false)
-                return Results.Failure("Это имя недопустимо для тега.");
-            
-            Snowflake guildId = Context.GuildId;
+            => await _discordCommandDispatcher.DispatchAsync(new CreateTagAliasRequest
+            {
+                TagName = originalName,
+                AliasName = newName,
+                Context = Context
+            });
 
-            Tag? tag = await _tagService.GetTagAsync(originalName, guildId);
-
-            if (tag is null) return Results.Failure($"Тег '{originalName}' не найден");
-
-            TagMessage tagMessage = tag.GetTagMessage();
-            Snowflake ownerId = Context.AuthorId;
-
-            TagAlias alias = _tagFactory.CreateTagAlias(tagMessage, newName, ownerId, guildId);
-
-            await _tagService.SaveTagAsync(alias, ownerId, await Bot.IsOwnerAsync(ownerId));
-
-            var message = $"Создал псевдоним`{alias.Name}` ➡️ `{alias.ReferencedTag.Name}`";
-            var response = _discordResponseFactory.GetSuccessfulResponse(message);
-            return Response(response);
-        }
-        
         [AutoComplete("добавить")]
         public ValueTask TagNameAutocomplete(
             [Name("тег")] AutoComplete<string> tagName) =>
-            TagsAutocompletes.TagName(tagName, Context.GuildId, _tagService);
+            _autocompleteProvider.GetAutocomplete().CompleteAsync(tagName, Context);
     }
 }

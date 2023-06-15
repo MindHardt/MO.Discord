@@ -1,4 +1,6 @@
-﻿using BotServices.Factories.Core;
+﻿using BotServices.Autocompletes.Default;
+using BotServices.CQRS.Dispatcher.Default;
+using BotServices.Factories.Core;
 using BotServices.MoBot;
 using BotServices.Services.Implementations;
 using Data;
@@ -26,6 +28,9 @@ IHost host = Host.CreateDefaultBuilder()
             dbCtx.UseNpgsql(ctx.Configuration.GetConnectionString("DefaultConnection") ??
                             throw new InvalidOperationException("ConnectionString not found")));
         services.AddEntityFrameworkCoreRepositories<ApplicationContext>();
+
+        services.AddDefaultCommandDispatcher();
+        services.AddAutocompletes();
         
         services.AddBotServices();
         services.AddBotFactories();

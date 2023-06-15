@@ -1,7 +1,7 @@
-﻿using BotServices.Entities.Tags;
-using BotServices.Factories.Core;
-using BotServices.Services.Core;
-using Disqord;
+﻿using BotServices.Autocompletes.Core.Tags;
+using BotServices.CQRS.Dispatcher.Core;
+using BotServices.CQRS.Requests.Tags;
+using BotServices.Entities.Tags;
 using Disqord.Bot.Commands.Application;
 using Qmmands;
 
@@ -10,18 +10,18 @@ namespace BotServices.Commands.Tags.Slash;
 [SlashGroup("тег")]
 public partial class TagsCommandModule : DiscordApplicationGuildModuleBase
 {
-    private readonly ITagService _tagService;
-    private readonly IDiscordResponseFactory _discordResponseFactory;
-    private readonly ITagFactory _tagFactory;
-
+    private readonly ITagViewAutocompleteProvider _viewAutocompleteProvider;
+    private readonly IDiscordCommandDispatcher _discordCommandDispatcher;
+    private readonly ITagEditAutocompleteProvider _editAutocompleteProvider;
+    
     public TagsCommandModule(
-        ITagService tagService,
-        IDiscordResponseFactory discordResponseFactory, 
-        ITagFactory tagFactory)
+        IDiscordCommandDispatcher discordCommandDispatcher, 
+        ITagViewAutocompleteProvider viewAutocompleteProvider, 
+        ITagEditAutocompleteProvider editAutocompleteProvider)
     {
-        _tagService = tagService;
-        _discordResponseFactory = discordResponseFactory;
-        _tagFactory = tagFactory;
+        _discordCommandDispatcher = discordCommandDispatcher;
+        _viewAutocompleteProvider = viewAutocompleteProvider;
+        _editAutocompleteProvider = editAutocompleteProvider;
     }
 
     [SlashCommand("поиск")]
@@ -29,41 +29,22 @@ public partial class TagsCommandModule : DiscordApplicationGuildModuleBase
     public async ValueTask<IResult> TagSearch(
         [Name("запрос"), Description("Часть названия тега по которой будем искать")]
         string prompt)
-    {
-        var tags = await _tagService.GetTagsAsync(Context.GuildId, prompt);
+        => await _discordCommandDispatcher.DispatchAsync(new TagSearchRequest
+        {
+            Context = Context,
+            Prompt = prompt,
+        });
 
-        var lines = tags
-            .Select(_tagService.CreateOverview)
-            .Select((l, i) => $"{i + 1}. {l}");
-        var descriptionRaw = string.Join('\n', lines);
-
-        const int maxDescriptionLength = Discord.Limits.Message.Embed.MaxDescriptionLength - 8;
-
-        var descriptionContent = $"```\n{descriptionRaw[..Math.Min(descriptionRaw.Length, maxDescriptionLength)]}\n```";
-
-        var response = new LocalInteractionMessageResponse()
-            .WithEmbeds(new LocalEmbed()
-                .WithDescription(descriptionContent)
-                .WithTitle($"Теги, соответствующие запросу `{prompt}`"));
-        return Response(response);
-    }
-    
-    
     [SlashCommand("отправить")]
     [Description("Отправляет сохраненный тег")]
     public async ValueTask<IResult> TagSend(
         [Name("название"), Description("Название отправляемого тега"), Maximum(Constants.MaxNameLength)]
         string name)
-    {
-        var guildId = Context.GuildId;
-        var tag = await _tagService.GetTagAsync(name, guildId);
-
-        if (tag is null)
-            throw new InvalidOperationException($"Тег `{name}` не найден");
-
-        var response = _tagService.CreateMessage<LocalInteractionMessageResponse>(tag);
-        return Response(response);
-    }
+        => await _discordCommandDispatcher.DispatchAsync(new GetTagRequest
+        {
+            Context = Context,
+            TagName = name
+        });
 
     [SlashCommand("создать")]
     [Description("Создает тег из предоставленного текста")]
@@ -72,31 +53,33 @@ public partial class TagsCommandModule : DiscordApplicationGuildModuleBase
         string name,
         [Name("содержимое"), Description("Текст будущего тега"), Maximum(Constants.MaxContentLength)]
         string text)
-    {
-        Snowflake ownerId = Context.AuthorId;
-        Snowflake guildId = Context.GuildId;
-        var tag = _tagFactory.CreateTagMessage(name, text, ownerId, guildId);
+        => await _discordCommandDispatcher.DispatchAsync(new CreateTagRequest
+        {
+            Context = Context,
+            Name = name,
+            Text = text
+        });
 
-        await _tagService.SaveTagAsync(tag, ownerId, await Bot.IsOwnerAsync(ownerId));
-
-        var response = _discordResponseFactory.GetSuccessfulResponse();
-        return Response(response);
-    }
-
-    [SlashCommand("удалить")] [Description("Удаляет выбранный тег")]
+    [SlashCommand("удалить")]
+    [Description("Удаляет выбранный тег")]
     public async ValueTask<IResult> TagDelete(
         [Name("название"), Description("Название тега"), Maximum(Constants.MaxNameLength)]
         string name)
-    {
-        await _tagService.DeleteTagAsync(name, Context.AuthorId);
-        
-        var response = _discordResponseFactory.GetSuccessfulResponse();
-        return Response(response);
-    }
+        => await _discordCommandDispatcher.DispatchAsync(new DeleteTagRequest
+        {
+            Context = Context,
+            TagName = name
+        });
 
     [AutoComplete("отправить")]
-    [AutoComplete("удалить")]
-    public ValueTask TagNameAutocomplete(
+    public ValueTask TagViewAutocomplete(
         [Name("название")] AutoComplete<string> tagName) =>
-        TagsAutocompletes.TagName(tagName, Context.GuildId, _tagService);
+        _viewAutocompleteProvider
+            .GetAutocomplete()
+            .CompleteAsync(tagName, Context);
+    
+    [AutoComplete("удалить")]
+    public ValueTask TagDeleteAutocomplete(
+        [Name("название")] AutoComplete<string> tagName) =>
+        _editAutocompleteProvider.GetAutocomplete().CompleteAsync(tagName, Context);
 }

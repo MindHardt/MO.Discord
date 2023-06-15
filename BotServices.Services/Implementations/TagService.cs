@@ -1,6 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using BotServices.Entities.Tags;
+using BotServices.Exceptions;
 using BotServices.Services.Core;
 using Data.Repositories.Core;
 using Disqord;
@@ -9,27 +9,29 @@ using Microsoft.Extensions.Logging;
 
 namespace BotServices.Services.Implementations;
 
-public partial class DefaultTagService : ITagService
+public partial class TagService : ITagService
 {
     private const int MaxTagCount = Discord.Limits.Message.MaxEmbedAmount;
     private const int MaxTagNamesCount = Discord.Limits.ApplicationCommand.Option.MaxChoiceAmount;
     private readonly ITagRepository _repo;
     private readonly IMemoryCache _cache;
-    private readonly ILogger<DefaultTagService> _logger;
+    private readonly ILogger<TagService> _logger;
+    private readonly ITagNameService _nameService;
 
-    public DefaultTagService(
+    public TagService(
         ITagRepository repo,
         IMemoryCache cache, 
-        ILogger<DefaultTagService> logger)
+        ILogger<TagService> logger, ITagNameService nameService)
     {
         _repo = repo;
         _cache = cache;
         _logger = logger;
+        _nameService = nameService;
     }
 
     public async Task SaveTagAsync(Tag tag, Snowflake authorId, bool authorAdmin)
     {
-        if (CheckTagName(tag.Name) is false)
+        if (_nameService.TagNameValid(tag.Name) is false)
             throw new InvalidOperationException("Это имя недопустимо для тега.");
         
         if (tag.Id != default && authorAdmin is false)
@@ -75,27 +77,17 @@ public partial class DefaultTagService : ITagService
         return _repo.GetTagNamesAsync(MaxTagNamesCount, guildId, prompt, editableBy);
     }
 
-    public async Task DeleteTagAsync(string name, Snowflake authorId)
+    public async Task<Tag> DeleteTagAsync(string name, Snowflake authorId)
     {
         var dbTag = await _repo.GetTagAsync(name);
-        if (dbTag is null)
-            throw new InvalidOperationException("Тег `{name}` не найден");
-        if (dbTag.OwnerId != authorId)
-            throw new InvalidOperationException("У вас нет права удалять этот тег");
+        
+        NotFoundException.ThrowIfNull(dbTag);
+        AccessException.ThrowIf(dbTag.OwnerId != authorId);
 
         await _repo.DeleteTagAsync(dbTag);
         _cache.Remove(GetCacheName(dbTag.Name));
-    }
 
-    public string? FindTagName(string input)
-    {
-        Match match = TagSearchRegex().Match(input);
-        return match.Success ? match.Groups["NAME"].Value : null;
-    }
-
-    public bool CheckTagName(string name)
-    {
-        return TagNameRegex().IsMatch(name);
+        return dbTag;
     }
 
     public TMessage CreateMessage<TMessage>(Tag tag) where TMessage : LocalMessageBase, new()
@@ -111,14 +103,4 @@ public partial class DefaultTagService : ITagService
     }
 
     private static string GetCacheName(string tagName) => $"TAG_{tagName.ToUpperInvariant()}";
-    
-    [StringSyntax("Regex")]
-    private const string TagNameRegexString = @"[\d\p{L}]+";
-    [StringSyntax("Regex")]
-    private const string TagSearchRegexString = @"\$(?<NAME>[\d\p{L}]+)";
-    
-    [GeneratedRegex(TagSearchRegexString)]
-    public partial Regex TagSearchRegex();
-    [GeneratedRegex(TagNameRegexString)]
-    public partial Regex TagNameRegex();
 }

@@ -9,7 +9,7 @@ public class DefaultDiscordResponseFactory : IDiscordResponseFactory
 {
     public LocalInteractionMessageResponse GetSuccessfulResponse(string? info = null) => new LocalInteractionMessageResponse()
         .WithEmbeds(new LocalEmbed()
-            .WithColor(Color.Lime)
+            .WithColor(Color.LimeGreen)
             .WithTitle("✅ Успешно!")
             .WithDescription(info ?? string.Empty));
 

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.0.1" />
+      <PackageReference Include="Qmmands" Version="6.0.0-alpha8" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BotServices.CQRS.Handlers\BotServices.CQRS.Handlers.csproj" />
+      <ProjectReference Include="..\BotServices.CQRS.ResponseFormatters\BotServices.CQRS.ResponseFormatters.csproj" />
+    </ItemGroup>
+
+</Project>

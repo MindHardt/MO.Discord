@@ -8,11 +8,13 @@
 
     <ItemGroup>
       <PackageReference Include="Disqord.Bot" Version="1.0.0-alpha5.56" />
+      <PackageReference Include="Disqord.Core" Version="1.0.0-alpha5.56" />
+      <PackageReference Include="Qmmands" Version="6.0.0-alpha8" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BotServices.Autocompletes\BotServices.Autocompletes.csproj" />
-      <ProjectReference Include="..\BotServices.CQRS.Dispatcher\BotServices.CQRS.Dispatcher.csproj" />
+      <ProjectReference Include="..\BotServices.CQRS.Responses\BotServices.CQRS.Responses.csproj" />
+      <ProjectReference Include="..\BotServices.Exceptions\BotServices.Exceptions.csproj" />
       <ProjectReference Include="..\BotServices.Factories\BotServices.Factories.csproj" />
       <ProjectReference Include="..\BotServices.Services\BotServices.Services.csproj" />
     </ItemGroup>

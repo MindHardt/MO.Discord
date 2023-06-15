@@ -8,12 +8,10 @@
 
     <ItemGroup>
       <PackageReference Include="Disqord.Bot" Version="1.0.0-alpha5.56" />
+      <PackageReference Include="Scrutor" Version="4.2.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BotServices.Autocompletes\BotServices.Autocompletes.csproj" />
-      <ProjectReference Include="..\BotServices.CQRS.Dispatcher\BotServices.CQRS.Dispatcher.csproj" />
-      <ProjectReference Include="..\BotServices.Factories\BotServices.Factories.csproj" />
       <ProjectReference Include="..\BotServices.Services\BotServices.Services.csproj" />
     </ItemGroup>
 

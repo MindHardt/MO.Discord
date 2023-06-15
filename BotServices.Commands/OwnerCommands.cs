@@ -1,4 +1,5 @@
-﻿using BotServices.Commands.Tags;
+﻿using BotServices.Autocompletes.Core.Tags;
+using BotServices.Commands.Tags;
 using BotServices.Entities.GuildData;
 using BotServices.Factories.Core;
 using BotServices.Services.Core;
@@ -15,15 +16,18 @@ public class OwnerCommands : DiscordApplicationGuildModuleBase
     private readonly IGuildDataService _guildDataService;
     private readonly IDiscordResponseFactory _discordResponseFactory;
     private readonly ITagService _tagService;
+    private readonly ITagViewAutocompleteProvider _autocompleteProvider;
 
     public OwnerCommands(
         IGuildDataService guildDataService, 
         IDiscordResponseFactory discordResponseFactory, 
-        ITagService tagService)
+        ITagService tagService, 
+        ITagViewAutocompleteProvider autocompleteProvider)
     {
         _guildDataService = guildDataService;
         _discordResponseFactory = discordResponseFactory;
         _tagService = tagService;
+        _autocompleteProvider = autocompleteProvider;
     }
     
     [SlashCommand("inline-tags")]
@@ -63,9 +67,9 @@ public class OwnerCommands : DiscordApplicationGuildModuleBase
         var response = _discordResponseFactory.GetSuccessfulResponse();
         return Response(response);
     }
-        
+
     [AutoComplete("tag-publicity")]
     public ValueTask TagNameAutocomplete(
         [Name("tag-name")] AutoComplete<string> tagName) =>
-        TagsAutocompletes.TagName(tagName, Context.GuildId, _tagService);
+        _autocompleteProvider.GetAutocomplete().CompleteAsync(tagName, Context);
 }

@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BotServices.Entities\BotServices.Entities.csproj" />
+      <ProjectReference Include="..\BotServices.Exceptions\BotServices.Exceptions.csproj" />
       <ProjectReference Include="..\Data\Data.csproj" />
     </ItemGroup>
 

@@ -16,7 +16,7 @@ public interface ITagService : IBotService
     
     /// <summary>
     /// Gets tags that are visible in guild with <paramref name="guildId"/> and
-    /// whose name is like <paramref name="prompt"/>.
+    /// whose name is like <paramref name="prompt"/>. Their texts are excluded.
     /// </summary>
     /// <param name="guildId"></param>
     /// <param name="prompt"></param>
@@ -49,20 +49,8 @@ public interface ITagService : IBotService
     /// <param name="name"></param>
     /// <param name="authorId"></param>
     /// <returns></returns>
-    public Task DeleteTagAsync(string name, Snowflake authorId);
+    public Task<Tag> DeleteTagAsync(string name, Snowflake authorId);
 
-    /// <summary>
-    /// Attempts to find tag name in <paramref name="input"/>
-    /// </summary>
-    /// <returns>the found <see cref="Tag"/> name or <see langword="null"/> if none is found.</returns>
-    public string? FindTagName(string input);
-    
-    /// <summary>
-    /// Checks whether <see cref="name"/> is valid.
-    /// </summary>
-    /// <returns><see langword="true"/> if tag name is valid, otherwise <see langword="false"/>.</returns>
-    public bool CheckTagName(string name);
-    
     /// <summary>
     /// Converts <paramref name="tag"/>s content into <typeparamref name="TMessage"/>.
     /// </summary>
