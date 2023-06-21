@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Data\Data.Abstractions\Data.Abstractions.csproj" />
+      <ProjectReference Include="..\Domain.Exceptions\Domain.Exceptions.csproj" />
+      <ProjectReference Include="..\Domain.Options\Domain.Options.csproj" />
+      <ProjectReference Include="..\Domain.Services.Abstractions\Domain.Services.Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0-preview.4.23259.5" />
+      <PackageReference Include="Scrutor" Version="4.2.2" />
+    </ItemGroup>
+
+</Project>
