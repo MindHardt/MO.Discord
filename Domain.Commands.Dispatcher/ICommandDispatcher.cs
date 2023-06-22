@@ -9,5 +9,6 @@ public interface ICommandDispatcher
     /// <param name="request"></param>
     /// <typeparam name="TResponse"></typeparam>
     /// <returns></returns>
-    public Task<TResponse> ExecuteAs<TResponse>(object request);
+    public Task<TResponse> ExecuteAs<TResponse>(object request)
+        where TResponse : notnull;
 }

@@ -3,6 +3,7 @@ using Data.EFCore.Repositories;
 using Disqord;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
+using Domain.Autocompletes.Default;
 using Domain.Bot;
 using Domain.Bot.Commands;
 using Domain.Commands.Dispatcher;
@@ -33,6 +34,7 @@ IHost host = Host.CreateDefaultBuilder()
         services.AddTypedOptions(ctx.Configuration);
 
         services.AddCommandDispatcher();
+        services.AddAutocompletes();
         services.AddFactories();
         services.AddServices();
         services.AddMemoryCache();

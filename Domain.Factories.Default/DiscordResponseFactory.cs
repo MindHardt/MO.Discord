@@ -8,5 +8,14 @@ public class DiscordResponseFactory : IDiscordResponseFactory
     public TMessage GetSuccessfulMessageResponse<TMessage>(string? additionalInfo = null)
         where TMessage : LocalMessageBase, new()
         => new TMessage().AddEmbed(new LocalEmbed()
-            .WithTitle("☑️ Успешно!").WithDescription(additionalInfo ?? string.Empty));
+            .WithColor(Color.LimeGreen)
+            .WithTitle("☑️ Успешно!")
+            .WithDescription(additionalInfo ?? string.Empty));
+
+    public TMessage GetFailedMessageResponse<TMessage>(string? additionalInfo = null) 
+        where TMessage : LocalMessageBase, new()
+        => new TMessage().AddEmbed(new LocalEmbed()
+            .WithColor(Color.OrangeRed)
+            .WithTitle("⚠️ Произошла ошибка!")
+            .WithDescription(additionalInfo ?? string.Empty));
 }

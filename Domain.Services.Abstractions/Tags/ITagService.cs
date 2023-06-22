@@ -23,4 +23,15 @@ public interface ITagService
     /// <param name="userId"></param>
     /// <returns>Reference to the same instance once the operation is completed.</returns>
     public Task<Tag> SaveTagAsync(Tag tag, Snowflake userId);
+    
+    /// <summary>
+    /// Gets at most <paramref name="limit"/> overviews of <see cref="Tag"/>s
+    /// that are visible in <paramref name="guildId"/> and whose names are similar to
+    /// <paramref name="prompt"/>.
+    /// </summary>
+    /// <param name="prompt">The part of the <see cref="Tag"/>s name.</param>
+    /// <param name="guildId">The id of the discord guild in which this tag must be visible.</param>
+    /// <param name="limit">The maximum amount of <see cref="TagOverview"/>s fetched by this operation.</param>
+    /// <returns></returns>
+    public ValueTask<IReadOnlyCollection<TagOverview>> GetOverviews(string? prompt, Snowflake? guildId);
 }

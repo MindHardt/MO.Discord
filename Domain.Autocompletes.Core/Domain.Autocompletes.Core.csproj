@@ -7,13 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Disqord" Version="1.0.0-alpha5.56" />
       <PackageReference Include="Disqord.Bot" Version="1.0.0-alpha5.56" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Domain.Autocompletes.Core\Domain.Autocompletes.Core.csproj" />
-      <ProjectReference Include="..\Domain.Commands.Dispatcher\Domain.Commands.Dispatcher.csproj" />
+      <ProjectReference Include="..\Domain.Autocompletes.Contexts\Domain.Autocompletes.Contexts.csproj" />
     </ItemGroup>
 
 </Project>

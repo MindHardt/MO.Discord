@@ -4,7 +4,7 @@ using Domain.Exceptions;
 using Domain.Services.Abstractions.Tags;
 using MediatR;
 
-namespace Domain.Commands.Handlers;
+namespace Domain.Commands.Handlers.Tags;
 
 public class GetTagRequestHandler : IRequestHandler<GetTagRequest, GetTagResponse>
 {

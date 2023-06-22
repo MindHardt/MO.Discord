@@ -11,6 +11,7 @@ public static class DependencyInjection
         {
             scan.FromAssembliesOf(typeof(DependencyInjection))
                 .AddClasses(c => c.AssignableTo(typeof(IFormatter<,>)))
+                .AddClasses(c => c.AssignableTo(typeof(IExceptionFormatter<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime();
         });

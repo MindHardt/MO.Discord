@@ -16,11 +16,18 @@ public class CommandDispatcher : ICommandDispatcher
         _formatter = formatter;
     }
 
-    public async Task<TResponse> ExecuteAs<TResponse>(object request)
+    public async Task<TResponse> ExecuteAs<TResponse>(object request) where TResponse : notnull
     {
-        var response = await _mediator.Send(request);
-        ArgumentNullException.ThrowIfNull(response);
+        try
+        {
+            var response = await _mediator.Send(request);
+            ArgumentNullException.ThrowIfNull(response);
 
-        return _formatter.Format<TResponse>(response);
+            return _formatter.Format<TResponse>(response);
+        }
+        catch (Exception ex)
+        {
+            return _formatter.FormatException<TResponse>(ex);
+        }
     }
 }

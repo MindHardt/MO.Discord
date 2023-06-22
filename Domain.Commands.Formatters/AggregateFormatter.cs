@@ -26,6 +26,12 @@ public class AggregateFormatter : IAggregateFormatter
         return formatter.Format<TResult>(source);
     }
 
+    public TResult FormatException<TResult>(Exception exception) where TResult : notnull
+    {
+        IFormatter formatter = GetFormatter(typeof(IExceptionFormatter<TResult>));
+        return formatter.Format<TResult>(exception);
+    }
+
     private IFormatter GetFormatter(Type formatterType)
     {
         var formatter = _serviceProvider.GetService(formatterType) as IFormatter;

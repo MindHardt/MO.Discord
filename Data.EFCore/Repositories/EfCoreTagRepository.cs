@@ -14,7 +14,7 @@ public class EfCoreTagRepository :
     { }
 
 
-    public async ValueTask<Tag?> FindTag(string name, Snowflake guildId)
+    public async ValueTask<Tag?> FindTag(string name, Snowflake? guildId)
     {
         return await Set
             .Include(t => ((AliasTag)t).ReferencedTag)
@@ -22,7 +22,7 @@ public class EfCoreTagRepository :
             .FirstOrDefaultAsync(t => EF.Functions.ILike(t.Name, name));
     }
 
-    public async ValueTask<IReadOnlyCollection<TagOverview>> GetOverviews(string? prompt, Snowflake guildId, int limit)
+    public async ValueTask<IReadOnlyCollection<TagOverview>> GetOverviews(string? prompt, Snowflake? guildId, int limit)
     {
         return await Set
             .Where(t => t.GuildId == null || t.GuildId == guildId)

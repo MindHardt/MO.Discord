@@ -1,5 +1,6 @@
 ﻿using Domain.Commands.Formatters;
 using Domain.Commands.Handlers;
+using Domain.Commands.Handlers.Tags;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Domain.Commands.Dispatcher;

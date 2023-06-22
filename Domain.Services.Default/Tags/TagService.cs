@@ -12,6 +12,8 @@ namespace Domain.Services.Default.Tags;
 
 public class TagService : ITagService
 {
+    private const int OverviewCount = Discord.Limits.ApplicationCommand.Option.MaxChoiceAmount;
+    
     private readonly ITagRepository _tagRepository;
     private readonly IUserService _userService;
     private readonly IMemoryCache _cache;
@@ -45,9 +47,18 @@ public class TagService : ITagService
     public async Task<Tag> SaveTagAsync(Tag tag, Snowflake userId)
     {
         AccessException.ThrowIf(await _userService.TagsLimitExceeded(userId));
+        var existingTag = await _tagRepository.FindTag(tag.Name, tag.GuildId);
+
+        if (existingTag is not null)
+            throw new ArgumentException("Тег с таким названием уже существует!");
 
         return await _tagRepository.SaveTag(tag);
     }
-    
+
+    public async ValueTask<IReadOnlyCollection<TagOverview>> GetOverviews(string? prompt, Snowflake? guildId)
+    {
+        return await _tagRepository.GetOverviews(prompt, guildId, OverviewCount);
+    }
+
     private static string GetCacheName(string tagName) => $"TAG_{tagName.ToUpper()}";
 }

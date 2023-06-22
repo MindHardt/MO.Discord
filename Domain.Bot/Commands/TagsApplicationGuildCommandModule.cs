@@ -1,5 +1,8 @@
 ﻿using Disqord;
 using Disqord.Bot.Commands.Application;
+using Domain.Autocompletes.Contexts;
+using Domain.Autocompletes.Contexts.Tags;
+using Domain.Autocompletes.Core;
 using Domain.Commands.Dispatcher;
 using Domain.Commands.Requests.Tags;
 using Qmmands;
@@ -10,10 +13,14 @@ namespace Domain.Bot.Commands;
 public class TagsApplicationGuildCommandModule : DiscordApplicationGuildModuleBase
 {
     private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IAutocompleteProvider _autocompleteProvider;
 
-    public TagsApplicationGuildCommandModule(ICommandDispatcher commandDispatcher)
+    public TagsApplicationGuildCommandModule(
+        ICommandDispatcher commandDispatcher, 
+        IAutocompleteProvider autocompleteProvider)
     {
         _commandDispatcher = commandDispatcher;
+        _autocompleteProvider = autocompleteProvider;
     }
 
     [SlashCommand("создать")]
@@ -39,9 +46,17 @@ public class TagsApplicationGuildCommandModule : DiscordApplicationGuildModuleBa
         [Name("название")]
         [Description("Название тега")]
         string name)
-        => Response(await _commandDispatcher.ExecuteAs<LocalInteractionMessageResponse>(new GetTagRequest()
+        => Response(await _commandDispatcher.ExecuteAs<LocalInteractionMessageResponse>(new GetTagRequest
         {
             GuildId = Context.GuildId,
             TagName = name
         }));
+
+    [AutoComplete("отправить")]
+    public ValueTask TagNameAutocomplete(
+        [Name("название")] AutoComplete<string> tagName)
+        => _autocompleteProvider.TagName().Complete(tagName, new TagNameContext
+        {
+            GuildId = Context.GuildId,
+        });
 }
