@@ -1,5 +1,4 @@
-﻿using Domain.Autocompletes.Contexts;
-using Domain.Autocompletes.Contexts.Tags;
+﻿using Domain.Autocompletes.Contexts.Tags;
 using Domain.Autocompletes.Core;
 using Domain.Autocompletes.Default.Tags;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +14,6 @@ public class AutocompleteProvider : IAutocompleteProvider
         _serviceProvider = serviceProvider;
     }
 
-    public IAutocomplete<string, TagNameContext> TagName() =>
+    public IAutocomplete<string, TagNameContext> GetTagName() =>
         _serviceProvider.GetRequiredService<TagNameAutocomplete>();
 }

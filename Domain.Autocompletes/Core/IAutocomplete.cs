@@ -4,5 +4,5 @@ namespace Domain.Autocompletes.Core;
 
 public interface IAutocomplete<T, in TContext> where T : notnull
 {
-    public ValueTask Complete(AutoComplete<T> member, TContext context);
+    public ValueTask CompleteAsync(AutoComplete<T> member, TContext context);
 }

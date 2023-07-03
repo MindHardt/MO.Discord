@@ -5,5 +5,5 @@ namespace Domain.Autocompletes.Core;
 
 public interface IAutocompleteProvider
 {
-    public IAutocomplete<string, TagNameContext> TagName();
+    public IAutocomplete<string, TagNameContext> GetTagName();
 }

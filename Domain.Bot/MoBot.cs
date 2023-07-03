@@ -1,7 +1,8 @@
 ﻿using Disqord;
 using Disqord.Bot;
 using Disqord.Bot.Commands.Application;
-using Domain.Bot.Commands;
+using Domain.Commands;
+using Domain.Commands.Slash;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -19,7 +20,7 @@ public class MoBot : DiscordBot
     
     protected override ValueTask OnInitialize(CancellationToken cancellationToken)
     {
-        Commands.AddModules(GetType().Assembly);
+        Commands.AddModules(typeof(TagsSlashCommandModule).Assembly);
 
         Logger.LogInformation("Recognizing {Count} owners", OwnerIds.Count);
 

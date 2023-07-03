@@ -14,7 +14,7 @@ public class TagNameAutocomplete : IAutocomplete<string, TagNameContext>
         _tagService = tagService;
     }
 
-    public async ValueTask Complete(AutoComplete<string> member, TagNameContext context)
+    public async ValueTask CompleteAsync(AutoComplete<string> member, TagNameContext context)
     {
         if (member.IsFocused is false) return;
         

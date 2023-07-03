@@ -4,8 +4,8 @@ using Disqord.Bot.Hosting;
 using Disqord.Gateway;
 using Domain.Autocompletes.Default;
 using Domain.Bot;
-using Domain.Bot.Commands;
-using Domain.Commands.Dispatcher;
+using Domain.Commands.Slash;
+using Domain.Dispatcher.Default;
 using Domain.Factories.Default;
 using Domain.Options;
 using Domain.Services.Default;
@@ -45,7 +45,7 @@ IHost host = Host.CreateDefaultBuilder()
         bot.Token = cfg?.Token;
         bot.OwnerIds = cfg?.OwnerSnowflakes;
         bot.Intents = GatewayIntents.Unprivileged | GatewayIntents.MessageContent;
-        bot.ServiceAssemblies = new[] { typeof(MoBot).Assembly, typeof(TagsApplicationGuildCommandModule).Assembly };
+        bot.ServiceAssemblies = new[] { typeof(MoBot).Assembly };
     })
     .Build();
     
