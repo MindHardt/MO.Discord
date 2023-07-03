@@ -78,7 +78,7 @@ namespace Domain.Exceptions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось  найти сервис!.
+        ///   Looks up a localized string similar to Не удалось найти сервис!.
         /// </summary>
         internal static string ServiceNotFoundException_DefaultMessage {
             get {

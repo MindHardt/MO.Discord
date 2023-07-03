@@ -13,23 +13,20 @@ public static class DependencyInjection
         {
             options.RegisterServicesFromAssemblyContaining<GetTagRequestHandler>();
         });
-        services.AddFormatters();
+        AddFormatters(services);
 
         return services;
     }
     
-    private static IServiceCollection AddFormatters(this IServiceCollection services)
+    private static void AddFormatters(IServiceCollection services)
     {
         services.AddScoped<IAggregateFormatter, AggregateFormatter>();
         services.Scan(scan =>
         {
             scan.FromAssembliesOf(typeof(DependencyInjection))
-                .AddClasses(c => c.AssignableTo(typeof(IFormatter<,>)))
-                .AddClasses(c => c.AssignableTo(typeof(IExceptionFormatter<>)))
+                .AddClasses(c => c.AssignableToAny(typeof(IFormatter<,>), typeof(IExceptionFormatter<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime();
         });
-
-        return services;
     }
 }

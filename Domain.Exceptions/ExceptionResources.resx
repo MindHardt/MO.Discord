@@ -25,6 +25,6 @@
         <value>У вас недостаточно прав для выполнения этого действия.</value>
     </data>
     <data name="ServiceNotFoundException_DefaultMessage" xml:space="preserve">
-        <value>Не удалось  найти сервис!</value>
+        <value>Не удалось найти сервис!</value>
     </data>
 </root>
