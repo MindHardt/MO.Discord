@@ -1,5 +1,4 @@
 ﻿using Disqord;
-using Microsoft.Extensions.Options;
 
 namespace Domain.Options;
 

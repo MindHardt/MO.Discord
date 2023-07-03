@@ -1,5 +1,4 @@
 ﻿using Data.EFCore.Converters;
-using Data.Entities;
 using Data.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

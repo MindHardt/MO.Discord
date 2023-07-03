@@ -1,5 +1,4 @@
-﻿using Domain.Autocompletes.Contexts;
-using Domain.Autocompletes.Contexts.Tags;
+﻿using Domain.Autocompletes.Contexts.Tags;
 
 namespace Domain.Autocompletes.Core;
 

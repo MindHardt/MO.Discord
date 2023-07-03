@@ -4,7 +4,6 @@ using Disqord.Bot.Hosting;
 using Disqord.Gateway;
 using Domain.Autocompletes.Default;
 using Domain.Bot;
-using Domain.Commands.Slash;
 using Domain.Dispatcher.Default;
 using Domain.Factories.Default;
 using Domain.Options;
