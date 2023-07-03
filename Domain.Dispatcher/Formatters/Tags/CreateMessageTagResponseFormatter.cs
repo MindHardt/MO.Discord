@@ -3,7 +3,7 @@ using Domain.Dispatcher.Core;
 using Domain.Dispatcher.Responses.Tags;
 using Domain.Factories.Core;
 
-namespace Domain.Dispatcher.Default.Formatters;
+namespace Domain.Dispatcher.Formatters.Tags;
 
 public class CreateMessageTagResponseFormatter : IFormatter<CreateMessageTagResponse, LocalInteractionMessageResponse>
 {

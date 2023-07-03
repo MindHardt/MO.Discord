@@ -5,7 +5,17 @@ namespace Data.Abstractions;
 
 public interface IUserRepository
 {
-    public Task<UserData?> GetUserData(Snowflake userId);
+    /// <summary>
+    /// Attempts to find <see cref="UserData"/> that correlates with <paramref name="userId"/>.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>The found <see cref="UserData"/> or <see langword="null"/> if none is found.</returns>
+    public ValueTask<UserData?> FindUser(Snowflake userId);
 
-    public Task<UserData> UpdateUserData(UserData userData);
+    /// <summary>
+    /// Saves <paramref name="userData"/> to the storage.
+    /// </summary>
+    /// <param name="userData"></param>
+    /// <returns></returns>
+    public ValueTask<UserData> UpdateUser(UserData userData);
 }

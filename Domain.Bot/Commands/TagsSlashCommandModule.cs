@@ -6,7 +6,7 @@ using Domain.Dispatcher.Core;
 using Domain.Dispatcher.Requests.Tags;
 using Qmmands;
 
-namespace Domain.Commands.Slash;
+namespace Domain.Bot.Commands;
 
 [SlashGroup("тег")]
 public class TagsSlashCommandModule : DiscordApplicationGuildModuleBase

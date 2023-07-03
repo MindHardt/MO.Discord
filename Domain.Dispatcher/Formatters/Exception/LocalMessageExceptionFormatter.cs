@@ -4,7 +4,7 @@ using Domain.Dispatcher.Core;
 using Domain.Factories.Core;
 using Microsoft.EntityFrameworkCore;
 
-namespace Domain.Dispatcher.Default.Formatters;
+namespace Domain.Dispatcher.Formatters.Exception;
 
 public class LocalMessageExceptionFormatter:
     IExceptionFormatter<LocalInteractionMessageResponse>
@@ -16,10 +16,10 @@ public class LocalMessageExceptionFormatter:
         _discordResponseFactory = discordResponseFactory;
     }
 
-    public LocalInteractionMessageResponse Format(Exception exception)
+    public LocalInteractionMessageResponse Format(System.Exception exception)
         => _discordResponseFactory.GetFailedMessageResponse<LocalInteractionMessageResponse>(GetDescription(exception));
 
-    private string GetDescription(Exception exception)
+    private string GetDescription(System.Exception exception)
     {
         var rawMessage = new StringBuilder(exception switch
         {

@@ -20,5 +20,11 @@ public class GuildDataEntityConfiguration : IEntityTypeConfiguration<GuildData>
         
         builder.Property(x => x.InlineTagsPrefix)
             .HasDefaultValue("$");
+
+        builder.HasMany(x => x.Tags)
+            .WithOne(x => x.Guild)
+            .HasForeignKey(x => x.GuildId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

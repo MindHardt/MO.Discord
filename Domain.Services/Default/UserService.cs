@@ -20,7 +20,12 @@ public class UserService : IUserService
 
     public async Task<UserData> GetOrCreateAsync(Snowflake userId)
     {
-        return await _userRepository.GetUserData(userId) ?? new UserData() { UserId = userId };
+        return await _userRepository.FindUser(userId) ?? new UserData { UserId = userId };
+    }
+
+    public async ValueTask<UserData> UpdateUserAsync(UserData user)
+    {
+        return await _userRepository.UpdateUser(user);
     }
 
     public int? GetTagLimit(UserData userData) => userData.CustomTagLimit ?? userData.AccessLevel switch

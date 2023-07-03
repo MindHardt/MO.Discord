@@ -13,6 +13,13 @@ public interface IUserService
     /// <param name="userId"></param>
     /// <returns></returns>
     public Task<UserData> GetOrCreateAsync(Snowflake userId);
+    
+    /// <summary>
+    /// Updates <paramref name="user"/> in the storage.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
+    public ValueTask<UserData> UpdateUserAsync(UserData user);
 
     /// <summary>
     /// Gets the total amount of <see cref="Tag"/>s that user can own or <see langword="null"/>

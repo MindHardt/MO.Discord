@@ -13,14 +13,14 @@ public class EfCoreUserRepository :
     {
     }
 
-    public async Task<UserData?> GetUserData(Snowflake userId)
+    public async ValueTask<UserData?> FindUser(Snowflake userId)
     {
         return await Set.FirstOrDefaultAsync(u => u.UserId == userId);
     }
 
-    public async Task<UserData> UpdateUserData(UserData userData)
+    public async ValueTask<UserData> UpdateUser(UserData userData)
     {
-        var entry = await GetUserData(userData.UserId) is null ? 
+        var entry = await FindUser(userData.UserId) is null ? 
             Set.Add(userData) : 
             Set.Update(userData);
 

@@ -5,9 +5,9 @@ namespace Data.Entities.Users;
 
 public record UserData
 {
-    public required Snowflake UserId { get; init; }
-    public ICollection<Tag> Tags { get; init; } = new List<Tag>();
+    public required Snowflake UserId { get; set; }
+    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
     
-    public UserAccessLevel AccessLevel { get; init; } = UserAccessLevel.Default;
-    public int? CustomTagLimit { get; init; }
+    public UserAccessLevel AccessLevel { get; set; } = UserAccessLevel.Default;
+    public int? CustomTagLimit { get; set; }
 }

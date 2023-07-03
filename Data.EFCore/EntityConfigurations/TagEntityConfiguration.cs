@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.EFCore.EntityConfigurations;
 
-public class BaseTagEntityConfiguration : IEntityTypeConfiguration<Tag>
+public class TagEntityConfiguration : IEntityTypeConfiguration<Tag>
 {
     public void Configure(EntityTypeBuilder<Tag> builder)
     {
@@ -32,5 +32,11 @@ public class BaseTagEntityConfiguration : IEntityTypeConfiguration<Tag>
             .WithMany(x => x.Tags)
             .HasForeignKey(x => x.OwnerId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.Guild)
+            .WithMany(x => x.Tags)
+            .HasForeignKey(x => x.GuildId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

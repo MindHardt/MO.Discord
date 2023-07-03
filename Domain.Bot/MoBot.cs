@@ -1,7 +1,7 @@
 ﻿using Disqord;
 using Disqord.Bot;
 using Disqord.Bot.Commands.Application;
-using Domain.Commands.Slash;
+using Domain.Bot.Commands;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

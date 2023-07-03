@@ -4,7 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Domain.Services.Default.Tags;
 
-internal partial class TagNameService : ITagNameService
+public partial class TagNameService : ITagNameService
 {
     private readonly IMemoryCache _cache;
 
