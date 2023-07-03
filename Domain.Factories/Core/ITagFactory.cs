@@ -2,7 +2,7 @@
 using Data.Entities.Users;
 using Disqord;
 
-namespace Domain.Factories.Abstractions;
+namespace Domain.Factories.Core;
 
 public interface ITagFactory
 {

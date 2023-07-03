@@ -1,6 +1,5 @@
 ﻿using Disqord;
 using Disqord.Bot.Commands.Application;
-using Domain.Autocompletes.Contexts;
 using Domain.Autocompletes.Contexts.Tags;
 using Domain.Autocompletes.Core;
 using Domain.Commands.Dispatcher;

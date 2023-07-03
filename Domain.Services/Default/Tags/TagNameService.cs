@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Domain.Services.Abstractions.Tags;
+using Domain.Services.Core.Tags;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Domain.Services.Default.Tags;
@@ -18,7 +18,7 @@ internal partial class TagNameService : ITagNameService
 
     public string? FindTagName(string text, string prefix = "$")
     {
-        var name = GetFinderRegex(prefix).Match(text).Groups["NAME"].Value;;
+        var name = GetFinderRegex(prefix).Match(text).Groups["NAME"].Value;
         return string.IsNullOrWhiteSpace(name) ? null : name;
     }
     

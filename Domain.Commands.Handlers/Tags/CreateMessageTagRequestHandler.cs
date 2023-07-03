@@ -1,9 +1,9 @@
 ﻿using Data.Entities.Tags;
 using Domain.Commands.Requests.Tags;
 using Domain.Commands.Responses.Tags;
-using Domain.Factories.Abstractions;
-using Domain.Services.Abstractions;
-using Domain.Services.Abstractions.Tags;
+using Domain.Factories.Core;
+using Domain.Services.Core;
+using Domain.Services.Core.Tags;
 using MediatR;
 
 namespace Domain.Commands.Handlers.Tags;

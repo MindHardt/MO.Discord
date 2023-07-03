@@ -1,7 +1,7 @@
 ﻿using Data.Entities.Tags;
 using Data.Entities.Users;
 using Disqord;
-using Domain.Factories.Abstractions;
+using Domain.Factories.Core;
 
 namespace Domain.Factories.Default;
 

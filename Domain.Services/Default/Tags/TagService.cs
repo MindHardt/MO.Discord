@@ -3,8 +3,8 @@ using Data.Entities.Tags;
 using Disqord;
 using Domain.Exceptions;
 using Domain.Options;
-using Domain.Services.Abstractions;
-using Domain.Services.Abstractions.Tags;
+using Domain.Services.Core;
+using Domain.Services.Core.Tags;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 

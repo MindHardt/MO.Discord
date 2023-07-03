@@ -2,7 +2,7 @@
 using Data.Entities.Users;
 using Disqord;
 
-namespace Domain.Services.Abstractions;
+namespace Domain.Services.Core;
 
 public interface IUserService
 {

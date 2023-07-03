@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Domain.Autocompletes.Core\Domain.Autocompletes.Core.csproj" />
+      <ProjectReference Include="..\Domain.Autocompletes\Domain.Autocompletes.csproj" />
       <ProjectReference Include="..\Domain.Commands.Dispatcher\Domain.Commands.Dispatcher.csproj" />
     </ItemGroup>
 

@@ -10,8 +10,8 @@
       <ProjectReference Include="..\Domain.Commands.Requests\Domain.Commands.Requests.csproj" />
       <ProjectReference Include="..\Domain.Commands.Responses\Domain.Commands.Responses.csproj" />
       <ProjectReference Include="..\Domain.Exceptions\Domain.Exceptions.csproj" />
-      <ProjectReference Include="..\Domain.Factories.Abstractions\Domain.Factories.Abstractions.csproj" />
-      <ProjectReference Include="..\Domain.Services.Abstractions\Domain.Services.Abstractions.csproj" />
+      <ProjectReference Include="..\Domain.Factories\Domain.Factories.csproj" />
+      <ProjectReference Include="..\Domain.Services\Domain.Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>

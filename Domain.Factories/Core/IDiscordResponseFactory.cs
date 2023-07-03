@@ -1,6 +1,6 @@
 ﻿using Disqord;
 
-namespace Domain.Factories.Abstractions;
+namespace Domain.Factories.Core;
 
 public interface IDiscordResponseFactory
 {

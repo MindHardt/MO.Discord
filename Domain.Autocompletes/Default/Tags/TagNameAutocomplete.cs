@@ -1,8 +1,7 @@
 ﻿using Disqord.Bot.Commands.Application;
-using Domain.Autocompletes.Contexts;
 using Domain.Autocompletes.Contexts.Tags;
 using Domain.Autocompletes.Core;
-using Domain.Services.Abstractions.Tags;
+using Domain.Services.Core.Tags;
 
 namespace Domain.Autocompletes.Default.Tags;
 

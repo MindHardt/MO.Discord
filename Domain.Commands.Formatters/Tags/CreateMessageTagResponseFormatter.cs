@@ -1,6 +1,6 @@
 ﻿using Disqord;
 using Domain.Commands.Responses.Tags;
-using Domain.Factories.Abstractions;
+using Domain.Factories.Core;
 
 namespace Domain.Commands.Formatters.Tags;
 

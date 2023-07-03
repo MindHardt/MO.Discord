@@ -1,6 +1,5 @@
 ﻿using Data.EFCore;
 using Data.EFCore.Repositories;
-using Disqord;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
 using Domain.Autocompletes.Default;
@@ -41,7 +40,7 @@ IHost host = Host.CreateDefaultBuilder()
     })
     .ConfigureDiscordBot<MoBot>((ctx, bot) =>
     {
-        var cfg = ctx.Configuration.GetSection("Discord").Get<DiscordOptions>();
+        var cfg = ctx.Configuration.GetRequiredSection("Discord").Get<DiscordOptions>();
 
         bot.Token = cfg?.Token;
         bot.OwnerIds = cfg?.OwnerSnowflakes;

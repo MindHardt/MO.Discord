@@ -1,7 +1,7 @@
 ﻿using Domain.Commands.Requests.Tags;
 using Domain.Commands.Responses.Tags;
 using Domain.Exceptions;
-using Domain.Services.Abstractions.Tags;
+using Domain.Services.Core.Tags;
 using MediatR;
 
 namespace Domain.Commands.Handlers.Tags;

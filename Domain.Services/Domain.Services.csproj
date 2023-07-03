@@ -8,9 +8,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Data\Data.Abstractions\Data.Abstractions.csproj" />
+      <ProjectReference Include="..\Data\Data.Entities\Data.Entities.csproj" />
       <ProjectReference Include="..\Domain.Exceptions\Domain.Exceptions.csproj" />
       <ProjectReference Include="..\Domain.Options\Domain.Options.csproj" />
-      <ProjectReference Include="..\Domain.Services.Abstractions\Domain.Services.Abstractions.csproj" />
     </ItemGroup>
 
     <ItemGroup>

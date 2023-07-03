@@ -17,7 +17,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Domain.Commands.Responses\Domain.Commands.Responses.csproj" />
       <ProjectReference Include="..\Domain.Exceptions\Domain.Exceptions.csproj" />
-      <ProjectReference Include="..\Domain.Factories.Abstractions\Domain.Factories.Abstractions.csproj" />
+      <ProjectReference Include="..\Domain.Factories\Domain.Factories.csproj" />
     </ItemGroup>
 
 </Project>

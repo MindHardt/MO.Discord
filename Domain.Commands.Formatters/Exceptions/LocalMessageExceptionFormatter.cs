@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Disqord;
-using Domain.Factories.Abstractions;
+using Domain.Factories.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Commands.Formatters.Exceptions;
@@ -22,9 +22,9 @@ public class LocalMessageExceptionFormatter:
     {
         var rawMessage = new StringBuilder(exception switch
         {
-            DbUpdateException => $"Ошибка базы данных",
-            ArgumentException => $"Ошибка ввода данных",
-            _ => $"Неизвестная ошибка"
+            DbUpdateException => "Ошибка базы данных",
+            ArgumentException => "Ошибка ввода данных",
+            _ => "Неизвестная ошибка"
         });
         rawMessage.Append($"```{exception.Message}");
         

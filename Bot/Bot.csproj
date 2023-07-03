@@ -39,12 +39,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Data.EFCore\Data.EFCore.csproj" />
-      <ProjectReference Include="..\Domain.Autocompletes.Default\Domain.Autocompletes.Default.csproj" />
+      <ProjectReference Include="..\Domain.Autocompletes\Domain.Autocompletes.csproj" />
       <ProjectReference Include="..\Domain.Bot\Domain.Bot.csproj" />
       <ProjectReference Include="..\Domain.Commands.Dispatcher\Domain.Commands.Dispatcher.csproj" />
       <ProjectReference Include="..\Domain.Options\Domain.Options.csproj" />
-      <ProjectReference Include="..\Domain.Factories.Default\Domain.Factories.Default.csproj" />
-      <ProjectReference Include="..\Domain.Services.Default\Domain.Services.Default.csproj" />
+      <ProjectReference Include="..\Domain.Services\Domain.Services.csproj" />
     </ItemGroup>
 
 </Project>

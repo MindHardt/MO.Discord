@@ -1,7 +1,7 @@
 ﻿using Data.Entities.Tags;
 using Disqord;
 
-namespace Domain.Services.Abstractions.Tags;
+namespace Domain.Services.Core.Tags;
 
 public interface ITagService
 {

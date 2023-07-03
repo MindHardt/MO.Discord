@@ -1,7 +1,7 @@
 ﻿using Data.Abstractions;
 using Data.Entities.Users;
 using Disqord;
-using Domain.Services.Abstractions;
+using Domain.Services.Core;
 
 namespace Domain.Services.Default;
 
