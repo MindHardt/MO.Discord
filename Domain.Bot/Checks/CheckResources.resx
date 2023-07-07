@@ -18,7 +18,13 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="AccessLevelTooLow" xml:space="preserve">
+    <data name="Failure_AccessLevelTooLow" xml:space="preserve">
         <value>Ваш уровень доступа не позволяет сделать это. Необходим уровнь - {0}.</value>
+    </data>
+    <data name="Failure_AdultNotAllowed" xml:space="preserve">
+        <value>Настройки взрослого контента запрещают делать это!</value>
+    </data>
+    <data name="Failure_GuildRequired" xml:space="preserve">
+        <value>Эта команда выполняется только на сервере!</value>
     </data>
 </root>

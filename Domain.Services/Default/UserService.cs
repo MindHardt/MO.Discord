@@ -30,12 +30,12 @@ public class UserService : IUserService
 
     public int? GetTagLimit(UserData userData) => userData.CustomTagLimit ?? userData.AccessLevel switch
     {
-        UserAccessLevel.Default => 5,
-        UserAccessLevel.Intermediate => 9,
-        UserAccessLevel.Advanced => 15,
-        UserAccessLevel.Helper => 50,
-        UserAccessLevel.Moderator => 100,
-        UserAccessLevel.Admin => null,
+        AccessLevel.Default => 5,
+        AccessLevel.Intermediate => 9,
+        AccessLevel.Advanced => 15,
+        AccessLevel.Helper => 50,
+        AccessLevel.Moderator => 100,
+        AccessLevel.Admin => null,
         _ => throw new ArgumentOutOfRangeException(nameof(userData))
     };
 

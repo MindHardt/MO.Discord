@@ -27,6 +27,13 @@ namespace Data.EFCore.Migrations
                     b.Property<ulong>("GuildId")
                         .HasColumnType("numeric(20,0)");
 
+                    b.Property<bool>("AdultAllowed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("GuildName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("InlineTagsEnabled")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -92,6 +99,10 @@ namespace Data.EFCore.Migrations
                     b.Property<int?>("CustomTagLimit")
                         .HasColumnType("integer");
 
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("UserId");
 
                     b.ToTable("UserData");
@@ -126,7 +137,7 @@ namespace Data.EFCore.Migrations
                     b.HasOne("Data.Entities.GuildData", "Guild")
                         .WithMany("Tags")
                         .HasForeignKey("GuildId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Data.Entities.Users.UserData", "Owner")
                         .WithMany("Tags")

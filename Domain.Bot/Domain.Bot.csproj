@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Data.Entities\Data.Entities.csproj" />
       <ProjectReference Include="..\Domain.Autocompletes\Domain.Autocompletes.csproj" />
       <ProjectReference Include="..\Domain.Dispatcher\Domain.Dispatcher.csproj" />
     </ItemGroup>
@@ -21,6 +22,10 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>CheckResources.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="BotResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>BotResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -28,6 +33,11 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>CheckResources.resx</DependentUpon>
+      </Compile>
+      <Compile Update="BotResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>BotResources.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 

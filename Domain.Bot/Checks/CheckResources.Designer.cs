@@ -62,9 +62,27 @@ namespace Domain.Bot.Checks {
         /// <summary>
         ///   Looks up a localized string similar to Ваш уровень доступа не позволяет сделать это. Необходим уровнь - {0}..
         /// </summary>
-        internal static string AccessLevelTooLow {
+        internal static string Failure_AccessLevelTooLow {
             get {
-                return ResourceManager.GetString("AccessLevelTooLow", resourceCulture);
+                return ResourceManager.GetString("Failure_AccessLevelTooLow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Настройки взрослого контента запрещают делать это!.
+        /// </summary>
+        internal static string Failure_AdultNotAllowed {
+            get {
+                return ResourceManager.GetString("Failure_AdultNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Эта команда выполняется только на сервере!.
+        /// </summary>
+        internal static string Failure_GuildRequired {
+            get {
+                return ResourceManager.GetString("Failure_GuildRequired", resourceCulture);
             }
         }
     }

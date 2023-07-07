@@ -12,7 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Data\Data.Entities\Data.Entities.csproj" />
+      <ProjectReference Include="..\Data.Entities\Data.Entities.csproj" />
+      <ProjectReference Include="..\Domain.Models\Domain.Models.csproj" />
     </ItemGroup>
 
 </Project>

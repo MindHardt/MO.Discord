@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Data\Data.Abstractions\Data.Abstractions.csproj" />
-      <ProjectReference Include="..\Data\Data.Entities\Data.Entities.csproj" />
+      <ProjectReference Include="..\Data.Abstractions\Data.Abstractions.csproj" />
+      <ProjectReference Include="..\Data.Entities\Data.Entities.csproj" />
       <ProjectReference Include="..\Domain.Exceptions\Domain.Exceptions.csproj" />
       <ProjectReference Include="..\Domain.Options\Domain.Options.csproj" />
     </ItemGroup>

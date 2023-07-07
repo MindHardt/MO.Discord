@@ -15,9 +15,35 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Data.Entities\Data.Entities.csproj" />
       <ProjectReference Include="..\Domain.Exceptions\Domain.Exceptions.csproj" />
       <ProjectReference Include="..\Domain.Factories\Domain.Factories.csproj" />
+      <ProjectReference Include="..\Domain.Models\Domain.Models.csproj" />
       <ProjectReference Include="..\Domain.Services\Domain.Services.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Formatters\MappingResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>MappingResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Mappers\Common\MappingResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>MappingResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Formatters\MappingResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>MappingResources.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Mappers\Common\MappingResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>MappingResources.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

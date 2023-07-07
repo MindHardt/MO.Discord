@@ -1,10 +1,12 @@
-﻿using Disqord;
+﻿using Data.Entities.Tags;
+using Disqord;
 using Disqord.Bot.Hosting;
 using Disqord.Rest;
 using Domain.Dispatcher.Core;
 using Domain.Dispatcher.Requests.Tags;
 using Domain.Services.Core;
 using Domain.Services.Core.Tags;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -44,15 +46,17 @@ public class InlineTagDiscordBotService : DiscordBotService
         _logger.LogInformation("Captured tag name {Name} in message {MessageId} in guild {GuildId}", 
             foundTagName, e.MessageId, e.GuildId.Value);
         
-        var dispatcher = scope.ServiceProvider.GetRequiredService<ICommandDispatcher>();
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         var request = new GetTagRequest
         {
             GuildId = e.GuildId.Value,
             TagName = foundTagName
         };
-        var message = await dispatcher.ExecuteAs<LocalMessage>(request);
+        var response = await mediator.Send(request);
+
+        var formatter = scope.ServiceProvider.GetRequiredService<ITypeMapper<Tag, LocalMessage>>();
         
-        message
+        var message = formatter.Map(response.FoundTag)
             .WithReply(e.MessageId)
             .WithAllowedMentions(LocalAllowedMentions.None);
 

@@ -1,10 +1,13 @@
 ﻿using Data.EFCore;
 using Data.EFCore.Repositories;
+using Disqord;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
+using Disqord.Http;
 using Domain.Autocompletes.Default;
 using Domain.Bot;
-using Domain.Dispatcher.Default;
+using Domain.Dispatcher.Handlers.Tags;
+using Domain.Dispatcher.Mappers.Common;
 using Domain.Factories.Default;
 using Domain.Options;
 using Domain.Services.Default;
@@ -30,11 +33,17 @@ void ConfigureServices(HostBuilderContext ctx, IServiceCollection services)
     services.Configure<DiscordOptions>(ctx.Configuration.GetSection("Discord").Bind);
     services.Configure<CacheOptions>(ctx.Configuration.GetSection("Cache").Bind);
 
-    services.AddCommandDispatcher();
+    services.AddMediatR(options =>
+    {
+        options.RegisterServicesFromAssemblyContaining<GetTagRequestHandler>();
+    });
+    services.AddMappers();
     services.AddAutocompletes();
     services.AddFactories();
     services.AddServices();
     services.AddMemoryCache();
+
+    services.AddScoped<HttpClient>();
 }
 
 void ConfigureDiscordBot(HostBuilderContext ctx, DiscordBotHostingContext bot)

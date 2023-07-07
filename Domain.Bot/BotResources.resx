@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Failure_CommandNotFound" xml:space="preserve">
+        <value>Команда не найдена!</value>
+    </data>
+    <data name="Failure_ChecksFailed" xml:space="preserve">
+        <value>Ошибка ввода: {0}</value>
+    </data>
+    <data name="Failure_TypeParseFailed" xml:space="preserve">
+        <value>Не пройдены проверки: {0}</value>
+    </data>
+    <data name="Failure_ParameterChecksFailed" xml:space="preserve">
+        <value>Значение аргумента {0} недопустимо: {1}</value>
+    </data>
+    <data name="Failure_Exception" xml:space="preserve">
+        <value>Произошла ошибка: {0}</value>
+    </data>
+</root>

@@ -29,14 +29,7 @@ public class EfCoreTagRepository :
             .Where(t => Regex.IsMatch(t.Name, prompt ?? string.Empty))
             .OrderBy(t => EF.Functions.Random())
             .Take(limit)
-            .Select(t => new TagOverview
-            {
-                Name = t.Name,
-                GuildId = t.GuildId,
-                OwnerId = t.OwnerId,
-                ReferencedTagName = ((AliasTag)t).ReferencedTag.Name,
-                Type = t.GetType().Name
-            })
+            .Select(t => TagOverview.Create(t))
             .ToArrayAsync();
     }
 

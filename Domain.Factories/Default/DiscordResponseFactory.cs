@@ -18,7 +18,4 @@ public class DiscordResponseFactory : IDiscordResponseFactory
             .WithColor(Color.OrangeRed)
             .WithTitle("⚠️ Произошла ошибка!")
             .WithDescription(additionalInfo ?? string.Empty));
-
-    public string GetBoolean(bool value)
-        => value ? "☑️" : "🚫";
 }

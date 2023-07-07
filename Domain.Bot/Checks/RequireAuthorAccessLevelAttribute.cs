@@ -8,9 +8,9 @@ namespace Domain.Bot.Checks;
 
 public class RequireAuthorAccessLevelAttribute : DiscordCheckAttribute
 {
-    private readonly UserAccessLevel _minimumLevel;
+    private readonly AccessLevel _minimumLevel;
 
-    public RequireAuthorAccessLevelAttribute(UserAccessLevel minimumLevel)
+    public RequireAuthorAccessLevelAttribute(AccessLevel minimumLevel)
     {
         _minimumLevel = minimumLevel;
     }
@@ -24,6 +24,6 @@ public class RequireAuthorAccessLevelAttribute : DiscordCheckAttribute
 
         return user.AccessLevel >= _minimumLevel 
             ? Results.Success 
-            : Results.Failure(string.Format(CheckResources.AccessLevelTooLow, _minimumLevel.ToString()));
+            : Results.Failure(string.Format(CheckResources.Failure_AccessLevelTooLow, _minimumLevel.ToString()));
     }
 }
